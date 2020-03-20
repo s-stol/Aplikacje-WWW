@@ -1,0 +1,92 @@
+body {
+    text-align: center;
+}
+
+table, th, td {
+    text-align: left;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-right: 12px;
+
+    font-weight: 100;
+    
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    
+} 
+
+footer {
+
+    margin-left: auto;
+    margin-right: auto;
+
+    background-color: aliceblue;
+  
+    color: green;
+  
+    font-family: sans-serif;
+  
+    font-size: 30px;
+  
+    width: 50%;
+  
+}
+
+p {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p#pierwszy {
+    width: 75%;
+    background-color: cornsilk;
+}
+
+p#drugi {
+    width: 75%;
+    background-color: darkkhaki;
+}
+
+p#superLot {
+    background-color: chartreuse;
+
+    width: 200px;
+    top: 125px;
+}
+
+tr#drugi>td{
+    padding-top: 40px;
+}
+
+div#loty{
+    position: relative;
+}
+
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p#pogoda {
+    width: 40%;
+    background-color: cornflowerblue;
+}
+
+p#opis {
+    width: 40%;
+    background-color: khaki;
+}
+
+ul#lista {
+    width: 20%;
+    background-color: lavender;
+
+    margin-left: auto;
+    margin-right: auto;
+}
