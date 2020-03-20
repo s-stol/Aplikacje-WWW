@@ -42,28 +42,33 @@ p {
     margin-right: auto;
 }
 
-p#pierwszy {
+section {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#pierwszy {
     width: 75%;
     background-color: cornsilk;
 }
 
-p#drugi {
+#drugi {
     width: 75%;
     background-color: darkkhaki;
 }
 
-p#superLot {
+#superLot {
     background-color: chartreuse;
 
     width: 200px;
     top: 125px;
 }
 
-tr#drugi>td{
+#drugiLot>td{
     padding-top: 40px;
 }
 
-div#loty{
+#loty{
     position: relative;
 }
 
@@ -73,20 +78,24 @@ img{
     margin-right: auto;
 }
 
-p#pogoda {
+#pogoda {
     width: 40%;
     background-color: cornflowerblue;
 }
 
-p#opis {
+#opis {
     width: 40%;
     background-color: khaki;
 }
 
-ul#lista {
+#lista {
     width: 20%;
     background-color: lavender;
 
     margin-left: auto;
     margin-right: auto;
+}
+
+.tytulListy {
+    font-size: large;
 }
