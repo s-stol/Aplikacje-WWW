@@ -9,48 +9,158 @@
     <script src="main.js"></script>
 </head>
 <body>
-    <h1>Lista lotów</h1>
-    <img src="logo.jpg" alt="logo firmy">
-    <p id="pierwszy">
-        Oto pierwszy akapit.
-    </p>
-
-    <p id="drugi">
-        Oto drugi akapit, cóż za niespodzianka.
-    </p>
-    <div id="loty">
-        <p id="superLot">
-            Ale super lot!
-        </p>
-        <table border="1">
-            <caption> Tabelka </caption>
-            <tbody>
-                <tr> 
-                    <td>Nr lotu</td> 
-                    <td>Skąd</td> 
-                    <td>Dokąd</td> 
-                    <td>Data</td>
-                    <td>Godzina</td>
-                </tr>
-                <tr> 
-                    <td><a href="lot.html">001</a></td> 
-                    <td>Londyn</td> 
-                    <td>NYC</td> 
-                    <td>11.12.21</td>
-                    <td>11:11</td>
-                </tr>
-                <tr id="drugiLot"> 
-                    <td><a href="lot.html">002</a></td> 
-                    <td>Kapsztad</td> 
-                    <td>Nowosybrisk</td> 
-                    <td>22.10.22</td>
-                    <td>12:34</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="flex-container">
+        <div id="lewy">
+            <menu>
+                <h2>Menu</h2>
+                <li><a href="lot.html">O nas</a></li>
+                <li><a href="lot.html">Oferta</a></li>
+                <li><a href="lot.html">Promocje</a></li>
+                <li><a href="lot.html">Odprawa online</a></li>
+                <li><a href="lot.html">Kontakt</a></li>
+                <li><a href="lot.html">Zarządzanie rezerwacją</a></li>
+                <ul id="podstrony">
+                    <li><a href="lot.html">Podstrona 1</a></li>
+                    <li><a href="lot.html">Podstrona 2</a></li>
+                </ul>
+            </menu>
+        </div>
+        <div id="srodek">
+            <h1>Lista lotów</h1>
+            <img src="logo.jpg" alt="logo firmy">
+            <div id="loty">
+                <table border="1">
+                    <caption> Tabelka </caption>
+                    <tbody>
+                        <tr> 
+                            <td>Nr lotu</td> 
+                            <td>Skąd</td> 
+                            <td>Dokąd</td> 
+                            <td>Data</td>
+                            <td>Godzina</td>
+                        </tr>
+                        <tr> 
+                            <td><a href="lot.html">001</a></td> 
+                            <td>Londyn</td> 
+                            <td>NYC</td> 
+                            <td>11.12.21</td>
+                            <td>11:11</td>
+                        </tr>
+                        <tr> 
+                            <td><a href="lot.html">002</a></td> 
+                            <td>Kapsztad</td> 
+                            <td>Nowosybrisk</td> 
+                            <td>22.10.22</td>
+                            <td>12:34</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <footer>
+                Autor: Szymon Stolarczyk
+            </footer>
+        </div>
+        <div id="prawy">
+            <section id="opoznienia">
+                <table border="1">
+                    <caption> Opóźnione loty </caption>
+                    <tbody>
+                        <tr> 
+                            <td>Skąd</td> 
+                            <td>Dokąd</td> 
+                            <td>Godzina</td>
+                            <td>Opóźnienie</td>
+                        </tr>
+                        <tr class="lekko"> 
+                            <td>Londyn</td> 
+                            <td>NYC</td> 
+                            <td>11:11</td>
+                            <td>13 min</td>
+                        </tr>
+                        <tr class="bardzo"> 
+                            <td>Kapsztad</td> 
+                            <td>Nowosybrisk</td> 
+                            <td>12:34</td>
+                            <td>11 h</td>
+                        </tr>
+                        <tr class="lekko"> 
+                            <td>Halifax</td> 
+                            <td>Addis Abeba</td> 
+                            <td>14:11</td>
+                            <td>20 min</td>
+                        </tr>
+                        <tr class="odwolany"> 
+                            <td>Sapporo</td> 
+                            <td>Nur-Sułtan</td> 
+                            <td>11:25</td>
+                            <td>Odwołany</td>
+                        </tr>
+                        <tr class="bardzo"> 
+                            <td>Wiedeń</td> 
+                            <td>Oslo</td> 
+                            <td>15:17</td>
+                            <td>5 h 30 min</td>
+                        </tr>
+                        <tr class="odwolany"> 
+                            <td>Dakar</td> 
+                            <td>Buenos Aires</td> 
+                            <td>17:13</td>
+                            <td>Odwołany</td>
+                        </tr>
+                        <tr class="lekko"> 
+                            <td>Poznań</td> 
+                            <td>Singapur</td> 
+                            <td>18:36</td>
+                            <td>22 min</td>
+                        </tr>
+                        <tr class="lekko"> 
+                            <td>Moskwa</td> 
+                            <td>Stambuł</td> 
+                            <td>12:12</td>
+                            <td>41 min</td>
+                        </tr>
+                        <tr class="odwolany"> 
+                            <td>Kair</td> 
+                            <td>Kiszynów</td> 
+                            <td>11:38</td>
+                            <td>Odwołany</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <form>
+                <p>
+                    <label for="fname">Imię:</label>
+                    <input type="text" id="fname">
+                </p>
+                <p>
+                    <label for="lname">Nazwisko:</label>
+                    <input type="text" id="lname">
+                </p>
+                <p>
+                    <label for="skad">Skąd:</label>
+                    <select id="skad">
+                        <option value="Londyn">Londyn</option>
+                        <option value="NYC">NYC</option>
+                        <option value="Kapsztad">Kapsztad</option>
+                        <option value="Nowosybirsk">Nowosybirsk</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="dokad">Dokąd:</label>
+                    <select id="dokad">
+                        <option value="Londyn">Londyn</option>
+                        <option value="NYC">NYC</option>
+                        <option value="Kapsztad">Kapsztad</option>
+                        <option value="Nowosybirsk">Nowosybirsk</option>
+                    </select>
+                </p>
+                <p>
+                    <input type="reset" value="Wyczyść">
+                    <input type="submit" value="Rezerwuj">
+                </p>
+            </form>
+        </div>
     </div>
 </body>
-<footer>
-    Autor: Szymon Stolarczyk
-</footer>
 </html>
