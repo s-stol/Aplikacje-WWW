@@ -69,7 +69,6 @@ img{
 
 #lista {
     width: 20%;
-    background-color: lavender;
 
     margin-left: auto;
     margin-right: auto;
@@ -79,15 +78,16 @@ img{
     font-size: large;
 }
 
-menu {
+nav {
     list-style: none;
     font: menu;
     text-align: left;
     padding-left: 0px;
     background-color: palegreen;
+    width: 220px;
 }
 
-menu a {
+nav a {
     text-decoration: none;
     color: black;
     text-transform: uppercase;
@@ -96,6 +96,7 @@ menu a {
 #podstrony {
     list-style: none;
     padding-left: 20px;
+    margin-top: 0px;
 }
 
 .lekko {
@@ -113,4 +114,63 @@ menu a {
 .flex-container {
     display: flex;
     justify-content: space-between;
+    max-width: 1900px;
+}
+
+.flex-container > * {
+    padding: 10px;
+    flex: 1 100%;
+}
+
+@media screen and (max-width: 800px) {
+    .flex-container {
+        display: flex;
+        flex-flow: row wrap;
+    }
+    img {
+        display: none;
+    }
+    #pogoda {
+        width: 200px;
+    }
+    #lista {
+        width: 200px;
+    }
+    nav {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.tooltip {
+    position: relative;
+}
+  
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 150px;
+    background-color: gray;
+    color: white;
+
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+#pasazerowie {
+    padding-left: 0px;
+}
+
+#pasazerowie>li:nth-child(even) {
+    background-color: peachpuff;
+}
+
+#pasazerowie>li:nth-child(odd) {
+    background-color: aquamarine;
 }
