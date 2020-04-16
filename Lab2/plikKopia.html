@@ -61,7 +61,7 @@
         <div id="prawy">
             <section id="opoznienia">
                 <h2>Opóźnione loty</h2>
-                <table>
+                <table id="tabelaOpoznien">
                     <tbody>
                         <tr> 
                             <td>Skąd</td> 
@@ -126,50 +126,54 @@
                     </tbody>
                 </table>
             </section>
-            <section>
-                <h2>
-                    Rezerwuj lot
-                </h2>
-                <form action="plikKopia.html">
-                    <p>
-                        <label for="fname">Imię:</label>
-                        <input type="text" id="fname">
-                    </p>
-                    <p>
-                        <label for="lname">Nazwisko:</label>
-                        <input type="text" id="lname">
-                    </p>
-                    <p>
-                        <label for="skad">Skąd:</label>
-                        <select id="skad">
-                            <option value="Londyn">Londyn</option>
-                            <option value="NYC">NYC</option>
-                            <option value="Kapsztad">Kapsztad</option>
-                            <option value="Nowosybirsk">Nowosybirsk</option>
-                        </select>
-                    </p>
-                    <p>
-                        <label for="dokad">Dokąd:</label>
-                        <select id="dokad">
-                            <option value="Londyn">Londyn</option>
-                            <option value="NYC">NYC</option>
-                            <option value="Kapsztad">Kapsztad</option>
-                            <option value="Nowosybirsk">Nowosybirsk</option>
-                        </select>
-                    </p>
-                    <p>
-                        <input type="reset" value="Wyczyść">
-                        <input type="submit" value="Rezerwuj">
-                    </p>
-                </form>
-            </section>
         </div>
+        <section id="rezerwacja">
+            <h2>
+                Rezerwuj lot
+            </h2>
+            <form action="plikKopia.html">
+                <p>
+                    <label for="fname">Imię:</label>
+                    <input type="text" id="fname">
+                </p>
+                <p>
+                    <label for="lname">Nazwisko:</label>
+                    <input type="text" id="lname">
+                </p>
+                <p>
+                    <label for="skad">Skąd:</label>
+                    <select id="skad">
+                        <option value="Londyn">Londyn</option>
+                        <option value="NYC">NYC</option>
+                        <option value="Kapsztad">Kapsztad</option>
+                        <option value="Nowosybirsk">Nowosybirsk</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="dokad">Dokąd:</label>
+                    <select id="dokad">
+                        <option value="Londyn">Londyn</option>
+                        <option value="NYC">NYC</option>
+                        <option value="Kapsztad">Kapsztad</option>
+                        <option value="Nowosybirsk">Nowosybirsk</option>
+                    </select>
+                </p>
+                <p>
+                    <label for"data">Data:</label>
+                    <input type="date" id="data">
+                </p>
+                <p>
+                    <input type="reset" value="Wyczyść">
+                    <input type="submit" value="Rezerwuj">
+                </p>
+            </form>
+        </section>
         <footer>
             Autor: Szymon Stolarczyk
         </footer>
     </div>
     <div id="okienko">
-        Rezerwacja udana!
+        <p>Rezerwacja udana!</p>
     </div>
 </body>
 </html>
