@@ -149,7 +149,7 @@ menu a {
     }
 }
 
-@media screen and (min-width: 501px) and (max-width: 1200px) {
+@media screen and (min-width: 501px) and (max-width: 1000px) {
     .grid-container {
         grid-template-columns: 3fr 1fr;
     }
@@ -176,7 +176,7 @@ menu a {
 
 }
 
-@media screen and (min-width: 1201px) {
+@media screen and (min-width: 1001px) {
     #rezerwacja {
         grid-column-start: -2;
         grid-row-start: 3;
@@ -240,10 +240,14 @@ form {
 
 #tabelaOpoznien {
     table-layout: fixed;
-    width: 245px;
+    width: 100%;
 }
 
 #tabelaOpoznien td {
     padding-left: 0px;
     padding-right: 0px;
+}
+
+input[type=text] {
+    width: 90%;
 }
