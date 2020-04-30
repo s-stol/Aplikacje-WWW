@@ -6,7 +6,6 @@
     <title>Linia lotnicza</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css">
-    <script src="main.js"></script>
 </head>
 <body>
     <div class="grid-container">
@@ -131,7 +130,7 @@
             <h2>
                 Rezerwuj lot
             </h2>
-            <form action="plikKopia.html">
+            <form>
                 <p>
                     <label for="fname">Imię:</label>
                     <input type="text" id="fname">
@@ -143,6 +142,7 @@
                 <p>
                     <label for="skad">Skąd:</label>
                     <select id="skad">
+                        <option value=""></option>
                         <option value="Londyn">Londyn</option>
                         <option value="NYC">NYC</option>
                         <option value="Kapsztad">Kapsztad</option>
@@ -152,6 +152,7 @@
                 <p>
                     <label for="dokad">Dokąd:</label>
                     <select id="dokad">
+                        <option value=""></option>
                         <option value="Londyn">Londyn</option>
                         <option value="NYC">NYC</option>
                         <option value="Kapsztad">Kapsztad</option>
@@ -172,5 +173,15 @@
             Autor: Szymon Stolarczyk
         </footer>
     </div>
+    <div id="okienko">
+        <p id="oknoTytul">Rezerwacja udana!</p>
+        <p id="oknoImie"></p>
+        <p id="oknoNazwisko"></p>
+        <p id="oknoSkad"></p>
+        <p id="oknoDokad"></p>
+        <p id="oknoData"></p>
+        <button id="powrot">Powrót</button> 
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>
