@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Quiz</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+</head>
+<body>
+    <div id="gridContainer">
+        <div id="mainContent">
+            <h1>Quiz</h1>
+            <p id="intro"></p>
+            <div id="question">
+                <label for="odp"></label>
+                <input type="text" id="odp">
+            </div>
+            <div>
+                <button id="prev">Poprzednie pytanie</button>
+                <button id="next">Następne pytanie</button>
+            </div>
+            <div>
+                <button id="stop" class="largeButton">Stop</button>
+            </div>
+            <div>
+                <button id="return">Powrót bez zapisywania wyników</button>
+            </div>
+        </div>
+        <div class="rightColumn">
+            <p id="numQuestion" class="valDisplayed"></p>
+            <p>Nr pytania</p>
+        </div>
+        <div class="rightColumn">
+            <p id="penalty" class="valDisplayed"></p>
+            <p>Kara za błąd</p>
+        </div>
+        <div class="rightColumn">
+            <p id="timePassed" class="valDisplayed"></p>
+            <p>Czas od rozpoczęcia</p>
+        </div>
+    </div>
+    <div id="endOfQuiz">
+        <h1>Koniec!</h1>
+        <p id="correctAnswers"></p>
+        <p id="wrongAnswers"></p>
+        <p id="penaltyTotal">Łączna kara</p>
+        <p id="time">Czas</p>
+        <p id="result">Łączny wynik</p>
+        <button id="exitNoStats">Zapisz bez statystyk</button>
+        <button id="exitStats">Zapisz statystyki</button>
+    </div>
+    <script src='quizSolve.js'></script>
+</body>
+</html>
