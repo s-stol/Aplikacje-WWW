@@ -17,10 +17,11 @@
     "mocha": "^7.1.2",
     "mocha-webdriver": "^0.2.7",
     "selenium-webdriver": "^4.0.0-alpha.7",
-    "ts-node": "^8.9.1",
+    "ts-node": "^8.10.1",
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@types/node": "^13.13.5",
     "geckodriver": "^1.19.1"
   }
 }

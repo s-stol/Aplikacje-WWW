@@ -1,19 +1,19 @@
-let validateForm = function () {
-    let sbmt = document.querySelector("input[type=submit]") as HTMLInputElement;
-    let impts = document.querySelectorAll("input, select");
+let validateForm = () => {
+    const sbmt = document.querySelector("input[type=submit]") as HTMLInputElement;
+    const impts = document.querySelectorAll("input, select");
     let alright = true;
     impts.forEach(
-        function(item) {
-            let itemValue = (<HTMLInputElement>item).value;
-            if (itemValue == "") {
+        (item) => {
+            const itemValue = (item as HTMLInputElement).value;
+            if (itemValue === "" || / .*/.test(itemValue)) { // string is empty or begins with a space
                 alright = false;
             }
         }
     )
     if (alright) {
-        let dateInput = document.querySelector("input[type=date") as HTMLInputElement;
-        let dateValue = dateInput.valueAsDate;
-        let today = new Date();
+        const dateInput = document.querySelector("input[type=date]") as HTMLInputElement;
+        const dateValue = dateInput.valueAsDate;
+        const today = new Date();
         today.setHours(0, 0, 0, 0);
         dateValue.setHours(0, 0, 0, 0);
         if (dateValue < today) {
@@ -21,34 +21,26 @@ let validateForm = function () {
         }
     }
     if (alright) {
-        sbmt.style.display = "";
+        sbmt.disabled = false;
     } else {
-        sbmt.style.display = "none";
+        sbmt.disabled = true;
     }
 }
 validateForm();
 let okno = document.querySelector("div[id=okienko]") as HTMLDivElement;
 okno.style.display = "none";
 
-let impts = document.querySelectorAll("input, select");
-
-impts.forEach(
-    function(item) {
-        let itemVal = <HTMLInputElement>item
-        itemVal.addEventListener("input", function(){validateForm()}, true);
-    }
-)
-
 let form = document.querySelector("form") as HTMLFormElement;
-form.addEventListener("reset", function() {
-    setTimeout(() => {
-        let sbmt = document.querySelector("input[type=submit]") as HTMLInputElement;
-        sbmt.style.display = "none"; validateForm()
-    }, 0);
+
+form.addEventListener("input", () => {validateForm()}, true);
+
+form.addEventListener("reset", () => {
+    const sbmt = document.querySelector("input[type=submit]") as HTMLInputElement;
+    sbmt.disabled = true;
 }, true);
 
-let submitForm = function () {
-    let okno = document.querySelector("div[id=okienko]") as HTMLDivElement;
+let submitForm = (e) => {
+    e.preventDefault();
     okno.style.display = "";
 
     /* Imię */
@@ -82,14 +74,12 @@ let submitForm = function () {
     parVal.textContent = strBegin.concat(inputVal.value);
 }
 
-form.addEventListener("submit", function(e){
-    e.preventDefault();
-    submitForm();
+form.addEventListener("submit", (e) => {
+    submitForm(e);
 }, true);
 
 let returnButton = document.querySelector("[id=powrot]");
 
-returnButton.addEventListener("click", function(){
-    let okno = document.querySelector("div[id=okienko]") as HTMLDivElement;
+returnButton.addEventListener("click", () => {
     okno.style.display = "none";
 }, true);

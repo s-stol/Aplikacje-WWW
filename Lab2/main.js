@@ -4,12 +4,12 @@ var validateForm = function () {
     var alright = true;
     impts.forEach(function (item) {
         var itemValue = item.value;
-        if (itemValue == "") {
+        if (itemValue === "" || / .*/.test(itemValue)) { // string is empty or begins with a space
             alright = false;
         }
     });
     if (alright) {
-        var dateInput = document.querySelector("input[type=date");
+        var dateInput = document.querySelector("input[type=date]");
         var dateValue = dateInput.valueAsDate;
         var today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -19,30 +19,23 @@ var validateForm = function () {
         }
     }
     if (alright) {
-        sbmt.style.display = "";
+        sbmt.disabled = false;
     }
     else {
-        sbmt.style.display = "none";
+        sbmt.disabled = true;
     }
 };
 validateForm();
 var okno = document.querySelector("div[id=okienko]");
 okno.style.display = "none";
-var impts = document.querySelectorAll("input, select");
-impts.forEach(function (item) {
-    var itemVal = item;
-    itemVal.addEventListener("input", function () { validateForm(); }, true);
-});
 var form = document.querySelector("form");
+form.addEventListener("input", function () { validateForm(); }, true);
 form.addEventListener("reset", function () {
-    setTimeout(function () {
-        var sbmt = document.querySelector("input[type=submit]");
-        sbmt.style.display = "none";
-        validateForm();
-    }, 0);
+    var sbmt = document.querySelector("input[type=submit]");
+    sbmt.disabled = true;
 }, true);
-var submitForm = function () {
-    var okno = document.querySelector("div[id=okienko]");
+var submitForm = function (e) {
+    e.preventDefault();
     okno.style.display = "";
     /* Imię */
     var inputVal = document.querySelector("input[id=fname]");
@@ -71,11 +64,9 @@ var submitForm = function () {
     parVal.textContent = strBegin.concat(inputVal.value);
 };
 form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    submitForm();
+    submitForm(e);
 }, true);
 var returnButton = document.querySelector("[id=powrot]");
 returnButton.addEventListener("click", function () {
-    var okno = document.querySelector("div[id=okienko]");
     okno.style.display = "none";
 }, true);
