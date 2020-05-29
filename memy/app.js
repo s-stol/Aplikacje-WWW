@@ -18,14 +18,13 @@ app.get('/', (req, res) => {
     res.render('index', { title: 'Meme market', message: 'Hello there!', memes: mostExpensive });
 });
 app.get('/meme/:memeId', (req, res) => {
-    try {
-        const meme = list.getMeme(parseInt(req.params.memeId, 10));
+    const meme = list.getMeme(parseInt(req.params.memeId, 10));
+    if (!meme) {
+        res.render('noUser', { id: req.params.memeId });
+    }
+    else {
         const prices = meme.getPrices();
         res.render('meme', { prices: { prices } });
-    }
-    catch (error) {
-        res.status(500);
-        res.render('error', { error: { error } });
     }
 });
 app.use(express.urlencoded({
