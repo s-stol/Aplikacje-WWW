@@ -1,0 +1,18 @@
+html
+    head
+        title="Meme"
+    style
+        include ../public/stylesheets/styleMeme.css
+    body
+        h1="Ceny mema"
+        table
+            tr
+                th="Ceny"
+            each value in prices
+                tr 
+                    td #{value}
+        form(action="", method="post")
+            p Podaj nową cenę
+            input(type='number', name='price', required)
+            input(type='submit', value='Ok')
+            

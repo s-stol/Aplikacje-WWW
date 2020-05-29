@@ -1,0 +1,15 @@
+html
+    head
+        title= title
+    style
+        include ../public/stylesheets/styleMeme.css
+    body
+        h1= message
+        img(src='https://upload.wikimedia.org/wikipedia/commons/c/c6/InternetMemeWithChopin.png')
+        h1="Meme list"
+        ul
+            each meme in memes
+                li
+                   a(href="meme/" + meme.id) #{meme.name}
+                   p #{meme.price}
+                   img(src=meme.url)
