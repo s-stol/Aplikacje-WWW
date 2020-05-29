@@ -3,6 +3,11 @@ body {
     background-color: lightgray;
 }
 
+ol {
+    list-style-position: inside;
+    padding: 0;
+}
+
 #endOfQuiz {
     position: fixed;
     top: 0px;

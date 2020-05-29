@@ -2,13 +2,35 @@ function compareNumbers(a: number, b: number) {
     return a - b;
 }
 
-function displayHighScores() {
-    const resJSON = localStorage.getItem("results");
-    if (resJSON === null) {
-        const bestRes = document.querySelector("div[id=bestResults]") as HTMLDivElement;
-        bestRes.style.display = "none";
-    } else {
-        const results = JSON.parse(resJSON) as number[];
+const dbName = "quizdb";
+let db: IDBDatabase;
+const request = indexedDB.open(dbName);
+
+request.onupgradeneeded = (event) => {
+    request.result.createObjectStore("res", { autoIncrement : true });
+    request.result.createObjectStore("stat", { autoIncrement : true });
+};
+
+request.onsuccess = (event) => {
+    db = (event.target as IDBOpenDBRequest).result;
+    displayHighScores(db);
+};
+
+request.onerror = () => {
+    const bestRes = document.querySelector("div[id=bestResults]") as HTMLDivElement;
+    bestRes.style.display = "none";
+}
+
+function displayHighScores(dataBase: IDBDatabase) {
+    const transaction = dataBase.transaction(["res"]);
+    const objectStore = transaction.objectStore("res");
+    const req = objectStore.getAll();
+    req.onsuccess = (event) => {
+        const results = req.result;
+        if (results.length === 0) {
+            const bestRes = document.querySelector("div[id=bestResults]") as HTMLDivElement;
+            bestRes.style.display = "none";
+        }
         const table = document.querySelector("ol");
         results.sort(compareNumbers);
         const resultsShowed = Math.min(results.length, 5);
@@ -18,9 +40,11 @@ function displayHighScores() {
             table.appendChild(li);
         }
     }
+    req.onerror = (event) => {
+        const bestRes = document.querySelector("div[id=bestResults]") as HTMLDivElement;
+        bestRes.style.display = "none";
+    }
 }
-
-displayHighScores();
 
 const startButton = document.querySelector("button[id=start]") as HTMLButtonElement;
 

@@ -8,6 +8,51 @@ let timeTotal: number;
 let finalResult: number;
 let finalTimes: number[];
 
+const dbName = "quizdb";
+let db: IDBDatabase;
+const request = indexedDB.open(dbName);
+
+request.onupgradeneeded = (event) => {
+    request.result.createObjectStore("res", { autoIncrement : true });
+    request.result.createObjectStore("stat", { autoIncrement : true });
+};
+
+let noStatsButton = document.querySelector("button[id=exitNoStats]") as HTMLButtonElement;
+let statsButton = document.querySelector("button[id=exitStats]") as HTMLButtonElement;
+
+request.onsuccess = (event) => {
+    db = (event.target as IDBOpenDBRequest).result
+
+    noStatsButton.addEventListener("click", () => {
+        const transaction = db.transaction(["res"], "readwrite");
+        const store = transaction.objectStore("res");
+        const req = store.add(finalResult);
+        transaction.oncomplete = () => {
+            window.location.href = "quiz.html";
+        }
+    }, true);
+
+    statsButton.addEventListener("click", () => {
+        const transaction = db.transaction(["res", "stat"], "readwrite");
+        const storeRes = transaction.objectStore("res");
+        const storeStat = transaction.objectStore("stat");
+        const reqR = storeRes.add(finalResult);
+        const reqS = storeStat.add(finalTimes);
+        transaction.oncomplete = () => {
+            window.location.href = "quiz.html";
+        }
+    }, true);
+};
+
+request.onerror = (event) => { // the storage won't get upgraded
+    noStatsButton.addEventListener("click", () => {
+        window.location.href = "quiz.html";
+    }, true);
+
+    statsButton.addEventListener("click", () => {
+        window.location.href = "quiz.html";
+    }, true);
+}
 
 const quiz = {
     "intro":"Oto przykładowy quiz",
@@ -185,27 +230,4 @@ stopButton.addEventListener("click", () => { // stops the quiz, displays final s
     penalty.textContent = pen;
     time.textContent = "Czas: ".concat(timeSecs.toString());
     result.textContent = "Ostateczny wynik: ".concat(finalResult.toString());
-}, true);
-
-let noStatsButton = document.querySelector("button[id=exitNoStats]") as HTMLButtonElement;
-let statsButton = document.querySelector("button[id=exitStats]") as HTMLButtonElement;
-
-function updateStorage(key: string, value: any) {
-    let resultArray = [];
-    if (localStorage.getItem(key) != null) {
-        resultArray = JSON.parse(localStorage.getItem(key));
-    }
-    resultArray.push(value);
-    localStorage.setItem(key, JSON.stringify(resultArray));
-}
-
-noStatsButton.addEventListener("click", () => {
-    updateStorage("results", finalResult);
-    window.location.replace("quiz.html");
-}, true);
-
-statsButton.addEventListener("click", () => {
-    updateStorage("results", finalResult);
-    updateStorage("stats", finalTimes);
-    window.location.replace("quiz.html");
 }, true);
