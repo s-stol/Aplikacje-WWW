@@ -12,11 +12,6 @@ const csrfProtection = csrf({ cookie: true });
 const parseForm = bodyParser.urlencoded({ extended: false });
 
 import util = require("util");
-const run = (db: sqlite3.Database) => util.promisify(db.run.bind(db));
-const get = (db: sqlite3.Database) => util.promisify(db.get.bind(db));
-
-import indexRouter = require('./routes/index');
-import usersRouter = require('./routes/users');
 
 const app = express();
 
