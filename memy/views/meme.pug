@@ -11,8 +11,10 @@ html
             each value in prices
                 tr 
                     td #{value}
-        form(action="", method="post")
+        form(action="/process/" + id, method="post")
             p Podaj nową cenę
+            input(type='hidden', name='_csrf', value=csrfToken)
             input(type='number', name='price', required)
             input(type='submit', value='Ok')
+        a(href="/") Powrót
             
