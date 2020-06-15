@@ -1,5 +1,3 @@
-import memeList = require('./memeList.js');
-import mem = require('./meme.js');
 import createError = require('http-errors');
 import express = require('express');
 import path = require('path');
@@ -19,8 +17,6 @@ const get = (db: sqlite3.Database) => util.promisify(db.get.bind(db));
 
 import indexRouter = require('./routes/index');
 import usersRouter = require('./routes/users');
-
-const list = memeList.exampleMemes;
 
 const app = express();
 
