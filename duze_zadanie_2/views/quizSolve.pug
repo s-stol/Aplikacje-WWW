@@ -1,0 +1,33 @@
+doctype html
+head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    title Quiz
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    style
+        include ../public/stylesheets/main.css
+#gridContainer
+    #mainContent
+        h1 Quiz
+        p#intro
+        #question
+        label(for='odp')
+        input#odp(type='text')
+        div
+        button#prev Poprzednie pytanie
+        button#next Następne pytanie
+        div
+        button#stop.largeButton Stop
+        div
+        button#return Powrót bez zapisywania wyników
+    .rightColumn
+        p#numQuestion.valDisplayed
+        p Nr pytania
+    .rightColumn
+        p#penalty.valDisplayed
+        p Kara za błąd
+    .rightColumn
+        p#timePassed.valDisplayed
+        p Czas od rozpoczęcia
+script(intro=quizIntro, questions=quizQuestions, csrfToken=csrfToken, quizId=quizId)
+    include ../public/javascripts/quizSolve.js

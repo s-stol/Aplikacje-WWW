@@ -1,0 +1,28 @@
+doctype html
+head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    title Strona główna
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    style
+        include ../public/stylesheets/main.css
+h1 Quiz
+form(action='/quizDo', method='post')
+    input(type='hidden', name='_csrf', value=csrfToken)
+    div
+        label(for='quizId') ID quizu:
+        select(name='quizId')
+            each quiz in quizList
+                option(value=quiz.id) #{quiz.id}
+    div
+        input#start.largeButton(type='submit', value='Zacznij nowy quiz')
+div
+    a#stats(href="/statsChoose") Statystyki
+div
+    a#login(href="/login") Zaloguj się
+div
+    a#logout(href="/logout") Wyloguj
+div
+    a#changepass(href="/changePass") Zmień hasło
+script(isLoggedIn=isLoggedIn)
+    include ../public/javascripts/main.js

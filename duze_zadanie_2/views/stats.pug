@@ -1,0 +1,32 @@
+doctype html
+head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    title Quiz
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    style
+        include ../public/stylesheets/main.css
+h1 Statystyki
+p#correctAnswers Poprawne odpowiedzi:
+    each corr in corrAns
+        | 
+        |#{corr}
+p#wrongAnswers Błędne odpowiedzi:
+    each wrong in wrongAns
+        | 
+        |#{wrong}
+p#actualAnswers Prawdziwe odpowiedzi:
+    each real in realAns
+        | 
+        |#{real}
+#bestResults
+    p Najlepsze wyniki
+    ol
+        each res in topStats
+            li #{res.username}: #{res.result}
+#averageTimes
+    p Średni czas odpowiedzi
+    ol
+        each avg in averages
+            li #{avg}%
+a(href="/") Powrót

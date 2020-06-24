@@ -1,0 +1,18 @@
+doctype html
+head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    title Quiz
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    style
+        include ../public/stylesheets/main.css
+#endOfQuiz
+    h1 Koniec!
+    p Łączny wynik:
+    p#result.valDisplayed #{result}
+    p Procentowy czas odpowiedzi:
+    p#stats
+        each stat in stats
+            | 
+            |#{stat}
+    a(href="/") Powrót
