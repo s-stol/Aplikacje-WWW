@@ -76,7 +76,9 @@ function incrementTime() { // increments the time of current question and total 
 
     const timePassed = document.querySelector("p[id=timePassed]");
     const timeSecs = Math.floor(timeTotal / 1000);
-    timePassed.textContent = timeSecs.toString();
+    if (timePassed) {
+        timePassed.textContent = timeSecs.toString();
+    }
 }
 
 function doIncrementTime() {
@@ -153,22 +155,11 @@ stopButton.addEventListener("click", () => { // stops the quiz, displays final s
         timePercentages.push(finalTimes[i]/timeFinal);
     }
 
-    const form = document.createElement('form');
-    form.method = 'post';
-    form.action = '/quizSolved';
-
-    const params = {'_csrf': csrfToken, 'finalTimes': JSON.stringify(timePercentages), 'finalAnswers': JSON.stringify(answers), 'quizId':quizId};
-  
-    for (const key in params) {
-      if (params.hasOwnProperty(key)) {
-        const hiddenField = document.createElement('input');
-        hiddenField.type = 'hidden';
-        hiddenField.name = key;
-        hiddenField.value = params[key];
-        form.appendChild(hiddenField);
-      }
-    }
-
-    document.body.appendChild(form);
-    form.submit();
+    const request = new XMLHttpRequest();
+    request.open('post', '/quizSolved', false);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader('x-csrf-token', csrfToken);
+    const data = JSON.stringify({'finalTimes': JSON.stringify(timePercentages), 'finalAnswers': JSON.stringify(answers), 'quizId':quizId});
+    request.send(data);
+    document.write(request.response)
 }, true);
