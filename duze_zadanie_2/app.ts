@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({store: new SQLiteStore, secret: '4r4th3rtr1ckys3cr3t', saveUninitialized: true, resave: true}));
 app.use(csrf({ cookie: true }));
 
-app.use((req, _res, next) => {
+const checkPasswordVersion = (req, _res, next) => {
   if(req.session.loggedIn) {
     req['db'].get("SELECT * FROM users WHERE username = ?", [req.session.login], (err, row) => {
       if (Number(row.passversion) !== Number(req.session.passVer)) {
@@ -53,7 +53,9 @@ app.use((req, _res, next) => {
   } else {
     next();
   }
-});
+}
+
+app.use(checkPasswordVersion);
 
 app.get('/', csrfProtection, (req, res) => {
   req['db'].all("SELECT * FROM quizes", (err, rows) => { 
@@ -91,51 +93,92 @@ app.post('/quizDo', parseForm, csrfProtection, (req, res) => {
   }
 });
 
+const checkValidity = (json) => {
+  if (!json.hasOwnProperty('quizId') || !json.hasOwnProperty('finalTimes') || !json.hasOwnProperty('finalAnswers')) {
+    return false;
+  }
+  try {
+    let times = JSON.parse(json.finalTimes)
+    if (!Array.isArray(times)) {
+      return false;
+    }
+    let answers = JSON.parse(json.finalAnswers);
+    if (!Array.isArray(answers)) {
+      return false;
+    }
+    if (times.some(isNaN)) {
+      return false;
+    }
+    let count = 0;
+    for(let i=0, n=times.length; i < n; i++) { 
+      count += times[i]; 
+    }
+    if (count < 0.95 || count > 1.05) { // sprawdzamy, czy czasy sumują się do mniej więcej 100%
+      return false;
+    }
+  } catch (e) { // JSON.parse
+    return false;
+  }
+  return true;
+}
+
+const checkLengths = (json, actualLength) => {
+  return (JSON.parse(json.finalTimes).length === actualLength && JSON.parse(json.finalAnswers).length === actualLength);
+}
+
 app.post('/quizSolved', parseForm, csrfProtection, (req, res) => {
   if (!req.session.loggedIn) {
     res.redirect('/');
   } else {
-    req['db'].get("SELECT * FROM quizes WHERE id = ?", [req.body.quizId], (err, row) => {
-      if (!row) {
-        res.render('message', {title: "Błąd", message: "Nie ma takiego quizu"});
-      } else {
-        req['db'].run("BEGIN EXCLUSIVE TRANSACTION;"); // W ten sposób użytkownik nie może jednocześnie wysłać rozwiązań w dwóch kartach
-        req['db'].get("SELECT * FROM quizEnd WHERE id = ? AND username = ?", [req.body.quizId, req.session.login], (enderr, endrow) => {
-          if (!endrow) { // Jeszcze nie był rozwiązywany
-            req['db'].get("SELECT * FROM quizStart WHERE id = ? AND username = ?", [req.body.quizId, req.session.login], (beginerr, beginrow) => {
-              if (!beginrow) { // Użytkownik jest oszustem
-                req['db'].run("ROLLBACK");
-                res.render('message', {title: "Błąd", message: "Nie można rozwiązać quizu jeśli jeszcze się go nie rozpoczęło"});
-              } else {
-                const currTime = new Date();
-                req['db'].run("INSERT INTO quizEnd VALUES(?,?,?)", [req.body.quizId, req.session.login, currTime]);
-                req['db'].run("COMMIT TRANSACTION;");
-                let totalResult = Math.floor((currTime.getTime() - beginrow.starttime)/1000);
-                const corrAns = [];
-                const wrongAns = [];
-                const stats = JSON.parse(req.body.finalTimes).map((n) => {return 100*n}).map(Math.round).map(String);
-                const quiz = JSON.parse(row.questions);
-                const numOfQuestions = quiz.length;
-                let sentTimeSum = 0;
-                for (let i = 0; i < numOfQuestions; i++) {
-                  if (Number((JSON.parse(req.body.finalAnswers))[i]) === Number(quiz[i].answer)) {
-                      corrAns.push(i+1);
+    if (!checkValidity(req.body)) {
+      res.render('message', {title: "Błąd", message: "Błędne dane"});
+    } else {
+      req['db'].get("SELECT * FROM quizes WHERE id = ?", [req.body.quizId], (err, row) => {
+        if (!row) {
+          res.render('message', {title: "Błąd", message: "Nie ma takiego quizu"});
+        } else {
+          req['db'].run("BEGIN EXCLUSIVE TRANSACTION;"); // W ten sposób użytkownik nie może jednocześnie wysłać rozwiązań w dwóch kartach
+          req['db'].get("SELECT * FROM quizEnd WHERE id = ? AND username = ?", [req.body.quizId, req.session.login], (enderr, endrow) => {
+            if (!endrow) { // Jeszcze nie był rozwiązywany
+              req['db'].get("SELECT * FROM quizStart WHERE id = ? AND username = ?", [req.body.quizId, req.session.login], (beginerr, beginrow) => {
+                if (!beginrow) { // Użytkownik jest oszustem
+                  req['db'].run("ROLLBACK");
+                  res.render('message', {title: "Błąd", message: "Nie można rozwiązać quizu jeśli jeszcze się go nie rozpoczęło"});
+                } else {
+                  const quiz = JSON.parse(row.questions);
+                  const numOfQuestions = quiz.length;
+                  if (!checkLengths(req.body, numOfQuestions)) {
+                    req['db'].run("ROLLBACK");
+                    res.render('message', {title: "Błąd", message: "Błędne dane"});
                   } else {
-                      wrongAns.push(i+1);
-                      totalResult += quiz[i].penalty;
+                    const currTime = new Date();
+                    req['db'].run("INSERT INTO quizEnd VALUES(?,?,?)", [req.body.quizId, req.session.login, currTime]);
+                    let totalResult = Math.floor((currTime.getTime() - beginrow.starttime)/1000);
+                    const corrAns = [];
+                    const wrongAns = [];
+                    const stats = JSON.parse(req.body.finalTimes).map((n) => {return 100*n}).map(Math.round).map(String);
+                    for (let i = 0; i < numOfQuestions; i++) {
+                      if (Number((JSON.parse(req.body.finalAnswers))[i]) === Number(quiz[i].answer)) {
+                          corrAns.push(i+1);
+                      } else {
+                          wrongAns.push(i+1);
+                          totalResult += quiz[i].penalty;
+                      }
+                    }
+                    req['db'].run("INSERT INTO quizStats VALUES(?,?,?,?,?,?)", [req.body.quizId, req.session.login, JSON.stringify(corrAns), JSON.stringify(wrongAns), totalResult, req.body.finalTimes]);
+                    req['db'].run("COMMIT TRANSACTION;");
+                    res.render('quizEnd', {result: totalResult, stats: stats});
                   }
                 }
-                req['db'].run("INSERT INTO quizStats VALUES(?,?,?,?,?,?)", [req.body.quizId, req.session.login, JSON.stringify(corrAns), JSON.stringify(wrongAns), totalResult, req.body.finalTimes]);
-                res.render('quizEnd', {result: totalResult, stats: stats});
-              }
-            })
-          } else {  // Już był rozwiązywany
-            req['db'].run("ROLLBACK");
-            res.render('message', {title: "Błąd", message: "Nie można rozwiązać quizu dwa razy"});
-          }
-        });
-      }
-    });
+              })
+            } else {  // Już był rozwiązywany
+              req['db'].run("ROLLBACK");
+              res.render('message', {title: "Błąd", message: "Nie można rozwiązać quizu dwa razy"});
+            }
+          });
+        }
+      });
+    }
   }
 });
 
